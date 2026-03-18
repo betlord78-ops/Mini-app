@@ -1,0 +1,6 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Trending</h1>
+<div class="list">{% for token in tokens %}<a class="list-row" href="/token/{{ token.id }}"><span>#{{ loop.index }} {{ token.name }} ({{ token.symbol }})</span><span>MC {{ token.market_cap or '-' }}</span><span>Liq {{ token.liquidity_usd or '-' }}</span><span>{{ token.age_label or '-' }}</span></a>{% else %}<p>No tokens yet.</p>{% endfor %}</div>
+{% endblock %}

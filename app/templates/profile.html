@@ -1,0 +1,6 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Recent Orders</h1>
+<div class="list">{% for order in orders %}<a class="list-row" href="/invoice/{{ order.id }}"><span>#{{ order.id }} {{ order.service_type }} / {{ order.package_name }}</span><span>{{ order.token_name or '-' }}</span><span>{{ order.amount }} {{ order.asset }}</span><span>{{ order.status }}</span></a>{% else %}<p>No orders yet.</p>{% endfor %}</div>
+{% endblock %}

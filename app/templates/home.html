@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Discover. Scan. Promote.</h1>
+  <p>Fresh TON launches, token pages, scanner, and paid visibility tools in one place.</p>
+  <div class="actions"><a class="btn" href="/scan">Scan Token</a><a class="btn secondary" href="/trending">View Trending</a></div>
+</section>
+
+<h2>New Launches</h2>
+<div class="grid">{% for token in new_launches %}<a class="card" href="/token/{{ token.id }}"><div class="token-head">{% if token.logo_url %}<img src="{{ token.logo_url }}" class="logo">{% endif %}<div><strong>{{ token.name }}</strong><div class="muted">{{ token.symbol }}</div></div></div><div class="stats">MC: {{ token.market_cap or '-' }}<br>Liq: {{ token.liquidity_usd or '-' }}<br>Age: {{ token.age_label or '-' }}</div><div class="badges">{% if token.is_verified %}<span class="badge">Verified</span>{% endif %}{% if token.is_promoted %}<span class="badge">Ads</span>{% endif %}{% if token.is_trending %}<span class="badge">Trending</span>{% endif %}</div></a>{% endfor %}</div>
+
+<h2>Trending</h2>
+<div class="grid">{% for token in trending %}<a class="card" href="/token/{{ token.id }}"><strong>{{ token.name }} ({{ token.symbol }})</strong><div class="muted">Risk: {{ token.risk_level }}</div><div class="stats">Price: {{ token.price_usd or '-' }}<br>Vol: {{ token.volume_24h or '-' }}</div></a>{% endfor %}</div>
+
+<h2>Promoted</h2>
+<div class="grid">{% for token in promoted %}<a class="card" href="/token/{{ token.id }}"><strong>{{ token.name }}</strong><div class="muted">Sponsored visibility</div></a>{% endfor %}</div>
+{% endblock %}

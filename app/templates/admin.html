@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="actions"><a class="btn secondary" href="/admin/logout">Logout</a></div>
+<h1>Admin</h1>
+<section class="card stack">
+  <h2>Create Token</h2>
+  <form method="post" action="/admin/tokens/create" enctype="multipart/form-data" class="grid two">
+    <label>Name<input name="name" required></label>
+    <label>Symbol<input name="symbol" required></label>
+    <label>Contract Address<input name="contract_address" required></label>
+    <label>Pool Address<input name="pool_address"></label>
+    <label>Website<input name="website_link"></label>
+    <label>Telegram<input name="telegram_link"></label>
+    <label>X<input name="x_link"></label>
+    <label>Supply<input name="supply"></label>
+    <label>Decimals<input type="number" name="decimals" value="9"></label>
+    <label>Burned LP<input name="burned_lp"></label>
+    <label>Risk<select name="risk_level"><option>Low</option><option>Caution</option><option>High</option><option>Unknown</option></select></label>
+    <label>Logo<input type="file" name="logo" accept="image/*"></label>
+    <label><input type="checkbox" name="is_verified"> Verified</label>
+    <label><input type="checkbox" name="is_promoted"> Promoted</label>
+    <label><input type="checkbox" name="is_trending"> Trending</label>
+    <button class="btn" type="submit">Create Token</button>
+  </form>
+</section>
+
+<h2>Tokens</h2>
+<div class="list">{% for token in tokens %}<div class="list-row wrap"><span>{{ token.name }} ({{ token.symbol }})</span><span>{{ token.contract_address }}</span><span>V: {{ token.is_verified }} | P: {{ token.is_promoted }} | T: {{ token.is_trending }}</span><span class="inline-forms"><form method="post" action="/admin/tokens/{{ token.id }}/toggle"><input type="hidden" name="field" value="is_verified"><button>Toggle Verified</button></form><form method="post" action="/admin/tokens/{{ token.id }}/toggle"><input type="hidden" name="field" value="is_promoted"><button>Toggle Ads</button></form><form method="post" action="/admin/tokens/{{ token.id }}/toggle"><input type="hidden" name="field" value="is_trending"><button>Toggle Trending</button></form><form method="post" action="/admin/tokens/{{ token.id }}/delete" onsubmit="return confirm('Delete token?')"><button>Delete</button></form></span></div>{% endfor %}</div>
+
+<h2>Orders</h2>
+<div class="list">{% for order in orders %}<div class="list-row wrap"><span>#{{ order.id }} {{ order.service_type }} {{ order.package_name }}</span><span>{{ order.token_name or '-' }}</span><span>{{ order.amount }} {{ order.asset }}</span><span>{{ order.status }}</span><span class="inline-forms"><form method="post" action="/admin/orders/{{ order.id }}/status"><input type="hidden" name="status" value="in_review"><button>In Review</button></form><form method="post" action="/admin/orders/{{ order.id }}/status"><input type="hidden" name="status" value="completed"><button>Completed</button></form><a href="/invoice/{{ order.id }}">Open</a></span></div>{% endfor %}</div>
+{% endblock %}
